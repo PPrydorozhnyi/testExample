@@ -12,11 +12,6 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class InValidHandleTest {
 
-//   public BusinessValidationException businessValidationException;
-//   public ConnectionException connectionException;
-//   public ServerException serverException;
-//   public ModelValidationException modelValidationException;
-
    public ExceptionHandler exceptionHandler;
 
 
@@ -25,10 +20,6 @@ public class InValidHandleTest {
 
     @Before
     public void setUp() throws Exception {
-//        businessValidationException = new BusinessValidationException();
-//        connectionException = new ConnectionException();
-//        serverException = new ServerException();
-//        modelValidationException = new ModelValidationException();
 
         exceptionHandler = new ExceptionHandler();
     }

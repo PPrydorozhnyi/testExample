@@ -32,10 +32,6 @@ public class CriticalTest {
 
     @Before
     public void setUp() throws Exception {
-//        businessValidationException = new BusinessValidationException();
-//        connectionException = new ConnectionException();
-//        serverException = new ServerException();
-//        modelValidationException = new ModelValidationException();
 
         exceptionHandler = new ExceptionHandler();
     }

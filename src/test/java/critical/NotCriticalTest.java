@@ -19,11 +19,6 @@ import static junit.framework.TestCase.assertFalse;
 @RunWith(Parameterized.class)
 public class NotCriticalTest {
 
-//   public BusinessValidationException businessValidationException;
-//   public ConnectionException connectionException;
-//   public ServerException serverException;
-//   public ModelValidationException modelValidationException;
-
    public ExceptionHandler exceptionHandler;
 
 
@@ -32,10 +27,6 @@ public class NotCriticalTest {
 
     @Before
     public void setUp() throws Exception {
-//        businessValidationException = new BusinessValidationException();
-//        connectionException = new ConnectionException();
-//        serverException = new ServerException();
-//        modelValidationException = new ModelValidationException();
 
         exceptionHandler = new ExceptionHandler();
     }

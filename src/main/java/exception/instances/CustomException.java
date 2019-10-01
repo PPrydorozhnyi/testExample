@@ -12,9 +12,4 @@ public class CustomException extends RuntimeException {
         this.critical = isCritical;
     }
 
-    CustomException(String message, Throwable cause, boolean isCritical) {
-        super(message, cause);
-        this.critical = isCritical;
-    }
-
 }

@@ -50,7 +50,6 @@ public class ExceptionHandler {
         } else {
             throw new IllegalArgumentException();
         }
-
         return exception;
     }
 }
