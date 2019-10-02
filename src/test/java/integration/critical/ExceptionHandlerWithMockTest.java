@@ -19,11 +19,12 @@ import java.util.List;
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = {Application.class})
-@DirtiesContext
+@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
 public class ExceptionHandlerWithMockTest {
 
     @MockBean
@@ -61,8 +62,8 @@ public class ExceptionHandlerWithMockTest {
         //take not critical exception to show power of mock
         exceptions.forEach(exception -> exceptionHandler.handle(exception));
 
-        assertEquals(0, exceptionHandler.getCriticalCount());
         assertEquals(exceptions.size(), exceptionHandler.getOkCount());
+        assertEquals(0, exceptionHandler.getCriticalCount());
         assertEquals(0, exceptionHandler.getFailedHandling());
 
     }
