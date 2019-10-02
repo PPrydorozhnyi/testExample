@@ -6,14 +6,12 @@ import lombok.Getter;
 @Getter
 public class CustomExceptionHandlerBoolean extends CustomExceptionHandlerImpl {
 
-    public boolean isCritical(Exception e) {
-
-        CustomException exception = convertExceptionType(e);
+    public boolean isCritical(CustomException e) {
 
         System.out.println("Exception successfully classified: " + e.getMessage() +
-                " with " + (exception.isCritical() ? "high" : "low") + " importance\n");
+                " with " + (e.isCritical() ? "high" : "low") + " importance\n");
 
-        return exception.isCritical();
+        return e.isCritical();
     }
 
 }

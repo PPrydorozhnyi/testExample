@@ -19,7 +19,7 @@ public abstract class CustomExceptionHandlerImpl implements CustomExceptionHandl
         CustomException exception = convertExceptionType(e);
         HttpStatus status;
 
-        if (exception.isCritical()) {
+        if (isCritical(exception)) {
             ++criticalSituationsCount;
             status = HttpStatus.INTERNAL_SERVER_ERROR;
 

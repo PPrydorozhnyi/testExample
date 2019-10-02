@@ -1,9 +1,9 @@
 package application.handler.impl;
 
 import application.exception.instance.CustomException;
+import application.handler.analyzer.CriticalAnalyzer;
 import application.model.responce.ErrorRecord;
 import lombok.Getter;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -11,23 +11,15 @@ import org.springframework.stereotype.Component;
 @Component("aliasHandler")
 public class CustomExceptionHandlerAlias extends CustomExceptionHandlerImpl {
 
-    private Environment environment;
+    private CriticalAnalyzer criticalAnalyzer;
 
-    public CustomExceptionHandlerAlias(Environment environment) {
-        this.environment = environment;
+    public CustomExceptionHandlerAlias(CriticalAnalyzer criticalAnalyzer) {
+        this.criticalAnalyzer = criticalAnalyzer;
     }
 
-
-    public boolean isCritical(Exception e) {
-
-        CustomException exception = convertExceptionType(e);
-
-        boolean critical = Boolean.valueOf(environment.getProperty(exception.getAlias()));
-
-        System.out.println("Exception successfully classified: " + e.getMessage() +
-                " with " + (critical ? "high" : "low") + " importance\n");
-
-        return critical;
+    @Override
+    public boolean isCritical(CustomException e) {
+        return criticalAnalyzer.isCritical(e);
     }
 
     @Override

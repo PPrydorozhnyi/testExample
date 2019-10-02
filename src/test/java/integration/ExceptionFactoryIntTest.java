@@ -37,4 +37,14 @@ public class ExceptionFactoryIntTest {
 
     }
 
+//    @Test
+//    public void exceptionFactoryTest() {
+//        List<String> collect = exceptionFactory.getCriticalExceptions().stream()
+//                .map(CustomException::getAlias).collect(Collectors.toList());
+//
+//        assertEquals(2, collect.size());
+//        assertEquals(CRITICAL_EXCEPTIONS, collect);
+//
+//    }
+
 }
