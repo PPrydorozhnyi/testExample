@@ -1,49 +1,41 @@
-package handler;
+package application.handler.impl;
 
-import exception.instances.CustomException;
+import application.exception.instance.CustomException;
+import application.handler.CustomExceptionHandler;
+import application.model.responce.ErrorRecord;
 import lombok.Getter;
-import model.ErrorRecord;
-import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Getter
-public class ExceptionHandler {
+public abstract class CustomExceptionHandlerImpl implements CustomExceptionHandler {
 
     private int okSituationsCount = 0;
     private int criticalSituationsCount = 0;
+    protected int failedHandling = 0;
 
-
-    public boolean isCritical(Exception e) {
-
-        CustomException exception = convertExceptionType(e);
-
-        System.out.println("Exception successfully classified: " + e.getMessage() +
-                " with " + (exception.isCritical() ? "high" : "low") + " importance\n");
-
-        return exception.isCritical();
-    }
-
-    public ErrorRecord handle(Exception e) {
+    public ResponseEntity<ErrorRecord> handle(Exception e) {
 
         CustomException exception = convertExceptionType(e);
-        int status;
+        HttpStatus status;
 
         if (exception.isCritical()) {
             ++criticalSituationsCount;
-            status = HttpStatus.SC_INTERNAL_SERVER_ERROR;
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
 
         } else {
             ++okSituationsCount;
-            status = HttpStatus.SC_BAD_REQUEST;
+            status = HttpStatus.BAD_REQUEST;
         }
 
         System.out.println(e.getClass().getName() + " successfully handled\n");
         System.out.println("Ok exceptions: " + okSituationsCount);
         System.out.println("Critical exceptions: " + criticalSituationsCount);
 
-        return new ErrorRecord(status, exception.getMessage());
+        return ResponseEntity.status(status).body(new ErrorRecord(status, exception.getMessage()));
     }
 
-    private CustomException convertExceptionType(Exception e) {
+    CustomException convertExceptionType(Exception e) {
         CustomException exception;
         if (e instanceof CustomException) {
             exception = (CustomException) e;

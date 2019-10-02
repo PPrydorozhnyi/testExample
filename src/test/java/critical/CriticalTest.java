@@ -1,14 +1,15 @@
 package critical;
 
-import exception.instances.ConnectionException;
-import exception.instances.CustomException;
-import exception.instances.ServerException;
-import handler.ExceptionHandler;
-import org.apache.http.HttpStatus;
+import application.exception.instance.ConnectionException;
+import application.exception.instance.CustomException;
+import application.exception.instance.ServerException;
+import application.handler.CustomExceptionHandler;
+import application.handler.impl.CustomExceptionHandlerBoolean;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,7 +25,7 @@ public class CriticalTest {
 //   public ServerException serverException;
 //   public ModelValidationException modelValidationException;
 
-   public ExceptionHandler exceptionHandler;
+    public CustomExceptionHandler customExceptionHandlerImpl;
 
 
    @Parameterized.Parameter
@@ -33,7 +34,7 @@ public class CriticalTest {
     @Before
     public void setUp() throws Exception {
 
-        exceptionHandler = new ExceptionHandler();
+        customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }
 
     @Parameterized.Parameters
@@ -44,14 +45,14 @@ public class CriticalTest {
 
     @Test
     public void isCriticalValidTest() {
-        boolean critical = exceptionHandler.isCritical(customException);
+        boolean critical = customExceptionHandlerImpl.isCritical(customException);
 
         assertTrue(critical);
     }
 
     @Test
     public void handleCritical() {
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, exceptionHandler.handle(customException).getStatus());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, customExceptionHandlerImpl.handle(customException).getStatusCode());
     }
 
 }

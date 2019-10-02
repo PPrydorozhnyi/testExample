@@ -1,4 +1,4 @@
-package exception.instances;
+package application.exception.instance;
 
 import lombok.Getter;
 
@@ -6,10 +6,12 @@ import lombok.Getter;
 public class CustomException extends RuntimeException {
 
     private boolean critical;
+    private String alias;
 
-    CustomException(String message, boolean isCritical) {
+    public CustomException(String message, boolean isCritical, String alias) {
         super(message);
         this.critical = isCritical;
+        this.alias = alias;
     }
 
 }

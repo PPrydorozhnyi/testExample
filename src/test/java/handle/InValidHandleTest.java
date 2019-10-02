@@ -1,6 +1,7 @@
 package handle;
 
-import handler.ExceptionHandler;
+import application.handler.CustomExceptionHandler;
+import application.handler.impl.CustomExceptionHandlerBoolean;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,7 @@ import java.util.List;
 @RunWith(Parameterized.class)
 public class InValidHandleTest {
 
-   public ExceptionHandler exceptionHandler;
+    public CustomExceptionHandler customExceptionHandlerImpl;
 
 
    @Parameterized.Parameter
@@ -21,7 +22,7 @@ public class InValidHandleTest {
     @Before
     public void setUp() throws Exception {
 
-        exceptionHandler = new ExceptionHandler();
+        customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }
 
     @Parameterized.Parameters
@@ -32,7 +33,7 @@ public class InValidHandleTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void inValidTest() {
-        exceptionHandler.handle(customException);
+        customExceptionHandlerImpl.handle(customException);
     }
 
 }
