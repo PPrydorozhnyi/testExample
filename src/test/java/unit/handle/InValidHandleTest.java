@@ -1,4 +1,4 @@
-package handle;
+package unit.handle;
 
 import application.handler.CustomExceptionHandler;
 import application.handler.impl.CustomExceptionHandlerBoolean;
@@ -20,7 +20,7 @@ public class InValidHandleTest {
    public Exception customException;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }

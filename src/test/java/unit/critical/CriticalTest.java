@@ -1,4 +1,4 @@
-package critical;
+package unit.critical;
 
 import application.exception.instance.ConnectionException;
 import application.exception.instance.CustomException;
@@ -20,10 +20,6 @@ import static junit.framework.TestCase.assertTrue;
 @RunWith(Parameterized.class)
 public class CriticalTest {
 
-//   public BusinessValidationException businessValidationException;
-//   public ConnectionException connectionException;
-//   public ServerException serverException;
-//   public ModelValidationException modelValidationException;
 
     public CustomExceptionHandler customExceptionHandlerImpl;
 
@@ -32,7 +28,7 @@ public class CriticalTest {
    public CustomException customException;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }

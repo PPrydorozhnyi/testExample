@@ -1,4 +1,4 @@
-package integration;
+package integration.exception_factory;
 
 import application.Application;
 import application.exception.factory.ExceptionFactory;
@@ -22,13 +22,14 @@ import static junit.framework.TestCase.assertEquals;
 public class ExceptionFactoryIntTest {
 
     private static final List<String> CRITICAL_EXCEPTIONS = Arrays.asList("connection", "server");
+    private static final List<String> NOT_CRITICAL_EXCEPTIONS = Arrays.asList("business", "model");
 
     @Autowired
     private ExceptionFactory exceptionFactory;
 
 
     @Test
-    public void exceptionFactoryTest() {
+    public void exceptionFactoryCriticalTest() {
         List<String> collect = exceptionFactory.getCriticalExceptions().stream()
                 .map(CustomException::getAlias).collect(Collectors.toList());
 
@@ -37,14 +38,14 @@ public class ExceptionFactoryIntTest {
 
     }
 
-//    @Test
-//    public void exceptionFactoryTest() {
-//        List<String> collect = exceptionFactory.getCriticalExceptions().stream()
-//                .map(CustomException::getAlias).collect(Collectors.toList());
-//
-//        assertEquals(2, collect.size());
-//        assertEquals(CRITICAL_EXCEPTIONS, collect);
-//
-//    }
+    @Test
+    public void exceptionFactoryNotCriticalTest() {
+        List<String> collect = exceptionFactory.getNotCriticalExceptions().stream()
+                .map(CustomException::getAlias).collect(Collectors.toList());
+
+        assertEquals(2, collect.size());
+        assertEquals(NOT_CRITICAL_EXCEPTIONS, collect);
+
+    }
 
 }

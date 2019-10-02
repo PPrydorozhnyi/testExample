@@ -35,7 +35,7 @@ public abstract class CustomExceptionHandlerImpl implements CustomExceptionHandl
         return ResponseEntity.status(status).body(new ErrorRecord(status, exception.getMessage()));
     }
 
-    CustomException convertExceptionType(Exception e) {
+    private CustomException convertExceptionType(Exception e) {
         CustomException exception;
         if (e instanceof CustomException) {
             exception = (CustomException) e;
@@ -43,5 +43,20 @@ public abstract class CustomExceptionHandlerImpl implements CustomExceptionHandl
             throw new IllegalArgumentException();
         }
         return exception;
+    }
+
+    @Override
+    public int getCriticalCount() {
+        return criticalSituationsCount;
+    }
+
+    @Override
+    public int getOkCount() {
+        return okSituationsCount;
+    }
+
+    @Override
+    public int getFailedHandling() {
+        return failedHandling;
     }
 }

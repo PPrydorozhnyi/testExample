@@ -1,4 +1,4 @@
-package critical;
+package unit.critical;
 
 import application.exception.instance.BusinessValidationException;
 import application.exception.instance.CustomException;
@@ -27,7 +27,7 @@ public class NotCriticalTest {
    public CustomException customException;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
         customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }
