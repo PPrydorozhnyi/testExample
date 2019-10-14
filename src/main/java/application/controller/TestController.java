@@ -4,12 +4,14 @@ import application.handler.CustomExceptionHandler;
 import application.model.enums.ExceptionType;
 import application.model.responce.ErrorRecord;
 import application.service.DummyService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 @RequestMapping("/tests")
 public class TestController {
 
@@ -24,6 +26,7 @@ public class TestController {
 
     @GetMapping("/exception")
     public String getException(@RequestParam(name = "type", required = false) ExceptionType exceptionType) {
+        log.debug("exception method endpoint");
         dummyService.produceException(exceptionType);
         return "gocha";
     }
