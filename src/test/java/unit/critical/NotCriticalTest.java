@@ -1,53 +1,46 @@
 package unit.critical;
 
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.http.HttpStatus;
+
 import application.exception.instance.BusinessValidationException;
 import application.exception.instance.CustomException;
 import application.exception.instance.ModelValidationException;
 import application.handler.impl.CustomExceptionHandlerBoolean;
 import application.handler.impl.CustomExceptionHandlerImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-
-@RunWith(Parameterized.class)
-public class NotCriticalTest {
+class NotCriticalTest {
 
     public CustomExceptionHandlerImpl customExceptionHandlerImpl;
 
-
-   @Parameterized.Parameter
-   public CustomException customException;
-
-    @Before
+    @BeforeEach
     public void setUp() {
 
         customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }
 
-    @Parameterized.Parameters
-    public static Collection<CustomException> data() {
-        return Arrays.asList(new BusinessValidationException(), new ModelValidationException());
+    private static Stream<CustomException> data() {
+        return Stream.of(new BusinessValidationException(), new ModelValidationException());
     }
 
 
-    @Test
-    public void notCriticalValidTest() {
+    @ParameterizedTest
+    @MethodSource("data")
+    void notCriticalValidTest(CustomException customException) {
         boolean critical = customExceptionHandlerImpl.isCritical(customException);
 
-        assertFalse(critical);
+        Assertions.assertFalse(critical);
     }
 
-    @Test
-    public void handleCritical() {
-        assertEquals(HttpStatus.BAD_REQUEST, customExceptionHandlerImpl.handle(customException).getStatusCode());
+    @ParameterizedTest
+    @MethodSource("data")
+    void handleCritical(CustomException customException) {
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, customExceptionHandlerImpl.handle(customException).getStatusCode());
     }
 
 }

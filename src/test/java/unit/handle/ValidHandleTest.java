@@ -1,55 +1,47 @@
 package unit.handle;
 
-import application.exception.instance.*;
-import application.handler.impl.CustomExceptionHandlerBoolean;
-import application.handler.impl.CustomExceptionHandlerImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
-import static junit.framework.TestCase.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@RunWith(Parameterized.class)
-public class ValidHandleTest {
+import application.exception.instance.BusinessValidationException;
+import application.exception.instance.ConnectionException;
+import application.exception.instance.CustomException;
+import application.exception.instance.ModelValidationException;
+import application.exception.instance.ServerException;
+import application.handler.impl.CustomExceptionHandlerBoolean;
+import application.handler.impl.CustomExceptionHandlerImpl;
 
-    public CustomExceptionHandlerImpl customExceptionHandlerImpl;
+class ValidHandleTest {
 
-    @Before
+    private CustomExceptionHandlerImpl customExceptionHandlerImpl;
+
+    @BeforeEach
     public void setUp() {
         customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }
 
-    @Parameterized.Parameters
-    public static List<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                {2, 0, Arrays.asList(new BusinessValidationException(), new ModelValidationException())},
-                {0, 2, Arrays.asList(new ConnectionException(), new ServerException())},
-                {2, 2, Arrays.asList(new BusinessValidationException(), new ModelValidationException(),
-                        new ConnectionException(), new ServerException())}
-    });
+    private static Stream<Arguments> data() {
+        return Stream.of(
+                Arguments.of(2, 0, Arrays.asList(new BusinessValidationException(), new ModelValidationException())),
+                Arguments.of(0, 2, Arrays.asList(new ConnectionException(), new ServerException())),
+                Arguments.of(2, 2, Arrays.asList(new BusinessValidationException(),
+                        new ModelValidationException(),
+                        new ConnectionException(), new ServerException())));
     }
 
-    @Parameterized.Parameter
-    public int okAmount;
-
-    @Parameterized.Parameter(1)
-    public int criticalAmount;
-
-    @Parameterized.Parameter(2)
-    public List<CustomException> exceptions;
-
-    @Test
-    public void validateParameters() {
-
+    @ParameterizedTest
+    @MethodSource("data")
+    void validateParameters(int okAmount, int criticalAmount, List<CustomException> exceptions) {
         exceptions.forEach(exception -> customExceptionHandlerImpl.handle(exception));
-
-        assertEquals(criticalAmount, customExceptionHandlerImpl.getCriticalSituationsCount());
-        assertEquals(okAmount, customExceptionHandlerImpl.getOkSituationsCount());
+        Assertions.assertEquals(criticalAmount, customExceptionHandlerImpl.getCriticalSituationsCount());
+        Assertions.assertEquals(okAmount, customExceptionHandlerImpl.getOkSituationsCount());
     }
-
 
 }

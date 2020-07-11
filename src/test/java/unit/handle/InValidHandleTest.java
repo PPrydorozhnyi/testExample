@@ -1,39 +1,33 @@
 package unit.handle;
 
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import application.handler.CustomExceptionHandler;
 import application.handler.impl.CustomExceptionHandlerBoolean;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
-import java.util.Arrays;
-import java.util.List;
+class InValidHandleTest {
 
-@RunWith(Parameterized.class)
-public class InValidHandleTest {
+    private static CustomExceptionHandler customExceptionHandlerImpl;
 
-    public CustomExceptionHandler customExceptionHandlerImpl;
-
-
-   @Parameterized.Parameter
-   public Exception customException;
-
-    @Before
-    public void setUp() {
-
+    @BeforeAll
+    static void setUp() {
         customExceptionHandlerImpl = new CustomExceptionHandlerBoolean();
     }
 
-    @Parameterized.Parameters
-    public static List<RuntimeException> data() {
-        return Arrays.asList(new ArithmeticException(), new ArrayIndexOutOfBoundsException(), new ArrayStoreException());
+    @ParameterizedTest
+    @MethodSource("provideCustomExceptions")
+    void inValidTest(RuntimeException customException) {
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> customExceptionHandlerImpl.handle(customException));
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void inValidTest() {
-        customExceptionHandlerImpl.handle(customException);
+    private static Stream<RuntimeException> provideCustomExceptions() {
+        return Stream.of(new ArithmeticException(), new ArrayIndexOutOfBoundsException(), new ArrayStoreException());
     }
 
 }

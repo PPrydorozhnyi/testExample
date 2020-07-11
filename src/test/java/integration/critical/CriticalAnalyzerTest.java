@@ -1,22 +1,21 @@
 package integration.critical;
 
-import application.Application;
-import application.exception.factory.ExceptionFactory;
-import application.handler.analyzer.CriticalAnalyzer;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import application.Application;
+import application.exception.factory.ExceptionFactory;
+import application.handler.analyzer.CriticalAnalyzer;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = {Application.class})
-public class CriticalAnalyzerTest {
+class CriticalAnalyzerTest {
 
     @Autowired
     CriticalAnalyzer criticalAnalyzer;
@@ -25,18 +24,18 @@ public class CriticalAnalyzerTest {
     private ExceptionFactory exceptionFactory;
 
     @Test
-    public void testCritical() {
+    void testCritical() {
 
         exceptionFactory.getCriticalExceptions()
-                .forEach(exception -> assertTrue(criticalAnalyzer.isCritical(exception)));
+                .forEach(exception -> Assertions.assertTrue(criticalAnalyzer.isCritical(exception)));
 
     }
 
     @Test
-    public void testNotCritical() {
+    void testNotCritical() {
 
         exceptionFactory.getNotCriticalExceptions()
-                .forEach(exception -> assertFalse(criticalAnalyzer.isCritical(exception)));
+                .forEach(exception -> Assertions.assertFalse(criticalAnalyzer.isCritical(exception)));
 
     }
 }
